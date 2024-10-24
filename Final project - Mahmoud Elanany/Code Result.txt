@@ -1,0 +1,40 @@
+رضا الموظفين حسب القسم:
+Department       SatisfactionLevel
+Human Resources  Satisfied              78
+                 Dissatisfied           76
+                 Neutral                74
+                 Very Satisfied         70
+                 Very Dissatisfied       5
+Sales            Dissatisfied          558
+                 Neutral               518
+                 Satisfied             517
+                 Very Satisfied        515
+                 Very Dissatisfied      41
+Technology       Satisfied            1090
+                 Neutral              1059
+                 Dissatisfied         1040
+                 Very Satisfied        984
+                 Very Dissatisfied      84
+Name: count, dtype: int64
+النسب المئوية للرضا حسب القسم:
+SatisfactionLevel  Dissatisfied    Neutral  Satisfied   Very Dissatisfied  \
+Department                                                                  
+Human Resources       25.082508  24.422442   25.742574           1.650165   
+Sales                 25.965565  24.104235   24.057701           1.907864   
+Technology            24.430350  24.876674   25.604886           1.973221   
+
+SatisfactionLevel  Very Satisfied  
+Department                         
+Human Resources         23.102310  
+Sales                   23.964635  
+Technology              23.114870  
+النسب المئوية للأداء حسب القسم:
+SelfRating             3.0        4.0        5.0
+Department                                      
+Human Resources  36.963696  27.062706  35.973597
+Sales            34.388087  33.876221  31.735691
+Technology       33.803148  33.497768  32.699084
+تم حفظ الملف النهائي باسم 'combined_results_final.csv'.
+
+*ملحوظه بعيده عن الكود ونتيجته
+((كطالب بالدورة الأولى في مبادره وزارة الإتصالات "مبادرة رواد مصر" أردت بعد الشكر أن أوضح أنه ليس لدي إشتراك office 365 لكتابة البيانات في شيت إكسيل, ولذلك أرجوا توفير إشتراكات مجانيه للطلاب اللي هيتم تدريبهم لاحقًا كي لا يعانوا بنفس الطريقة التي عانينا بها أو يضطروا لتحميل ملفات مكركه أو مشبوهة بصورة غير رسمية مما قد يعرض سمعة المبادرة لما لا يليق بها.))
