@@ -1,0 +1,55 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# تحميل البيانات
+employee_df = pd.read_csv('/content/drive/MyDrive/Colab Notebooks/Employee.csv')
+performance_df = pd.read_csv('/content/drive/MyDrive/Colab Notebooks/PerformanceRating.csv')
+satisfied_level_df = pd.read_csv('/content/drive/MyDrive/Colab Notebooks/SatisfiedLevel.csv')
+rating_level_df = pd.read_csv('/content/drive/MyDrive/Colab Notebooks/RatingLevel.csv')
+education_level_df = pd.read_csv('/content/drive/MyDrive/Colab Notebooks/EducationLevel.csv')
+
+# تنظيف العمود EducationLevelID
+education_level_df.columns = education_level_df.columns.str.strip().str.replace('ï»¿', '')
+
+# دمج مستوى الرضا من SatisfiedLevel مع PerformanceRating
+merged_df = pd.merge(performance_df, satisfied_level_df, left_on='JobSatisfaction', right_on='SatisfactionID', how='left')
+
+# دمج بيانات الموظفين مع أداءهم
+merged_df = pd.merge(employee_df, merged_df, on='EmployeeID', how='left')
+
+# دمج مستوى التعليم من EducationLevel مع بيانات الموظفين
+merged_df = pd.merge(merged_df, education_level_df, left_on='Education', right_on='EducationLevelID', how='left')
+
+# دمج مستوى التقييم من RatingLevel مع PerformanceRating
+merged_df = pd.merge(merged_df, rating_level_df, left_on='SelfRating', right_on='RatingID', how='left')
+
+# تحليل رضا الموظفين حسب القسم
+employee_satisfaction_by_dept = merged_df.groupby('Department')['SatisfactionLevel'].value_counts()
+print("رضا الموظفين حسب القسم:")
+print(employee_satisfaction_by_dept)
+
+# إعادة تشكيل البيانات لتسهيل التصور
+satisfaction_counts = merged_df.groupby(['Department', 'SatisfactionLevel']).size().unstack(fill_value=0)
+
+# حساب النسب المئوية للرضا حسب القسم
+satisfaction_percentage = satisfaction_counts.div(satisfaction_counts.sum(axis=1), axis=0) * 100
+print("النسب المئوية للرضا حسب القسم:")
+print(satisfaction_percentage)
+
+# تحليل الأداء حسب القسم
+performance_counts = merged_df.groupby(['Department', 'SelfRating']).size().unstack(fill_value=0)
+
+# حساب النسب المئوية للأداء حسب القسم
+performance_percentage = performance_counts.div(performance_counts.sum(axis=1), axis=0) * 100
+print("النسب المئوية للأداء حسب القسم:")
+print(performance_percentage)
+
+# دمج البيانات في ملف واحد نهائي يشمل جميع الأعمدة
+combined_df = satisfaction_counts.merge(satisfaction_percentage, on='Department', suffixes=('_Count', '_Percentage'))
+combined_df = combined_df.merge(performance_percentage, on='Department')
+
+# حفظ البيانات المدمجة في ملف CSV جديد
+combined_df.to_csv('/content/drive/MyDrive/Colab Notebooks/combined_results_final.csv', index=True)
+
+print("تم حفظ الملف النهائي باسم 'combined_results_final.csv'.")
